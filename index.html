@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poznasz prawdę</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #080808;
+    color: white;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.container {
+    padding: 20px;
+}
+
+h1 {
+    font-size: clamp(30px, 7vw, 58px);
+    letter-spacing: 5px;
+    margin-bottom: 35px;
+}
+
+.label {
+    color: #aaa;
+    font-size: 17px;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+}
+
+.timer {
+    color: #ff2424;
+    font-size: clamp(23px, 6vw, 43px);
+    font-weight: bold;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        text-shadow: 0 0 8px #ff000044;
+    }
+    50% {
+        opacity: 0.8;
+        text-shadow: 0 0 17px #ff000099;
+    }
+}
+
+button {
+    margin-top: 40px;
+    padding: 17px 35px;
+    background: #b90000;
+    color: white;
+    border: 1px solid #ff3333;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:disabled {
+    background: #292929;
+    color: #777;
+    border-color: #444;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+button:not(:disabled):hover {
+    background: #ff1717;
+    box-shadow: 0 0 20px #ff000055;
+    transform: scale(1.04);
+}
+
+.status {
+    color: #888;
+    margin-top: 18px;
+    font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+    <h1>POZNASZ PRAWDĘ</h1>
+
+    <div class="label">ZA:</div>
+
+    <div class="timer" id="timer">Ładowanie...</div>
+
+    <button id="truthButton" disabled onclick="poznajPrawde()">
+        POZNAJ PRAWDĘ
+    </button>
+
+    <div class="status" id="status">
+        Przycisk zostanie odblokowany po zakończeniu odliczania
+    </div>
+</div>
+
+<script>
+// 18 grudnia 2026, godzina 00:00 czasu polskiego
+const deadline = new Date("2026-12-18T00:00:00+01:00").getTime();
+
+const timer = document.getElementById("timer");
+const button = document.getElementById("truthButton");
+const status = document.getElementById("status");
+
+function updateTimer() {
+    const now = Date.now();
+    const difference = deadline - now;
+
+    if (difference <= 0) {
+        timer.textContent = "00D 00H 00M 00S";
+        button.disabled = false;
+        status.textContent = "Prawda jest już dostępna";
+        return;
+    }
+
+    const days = Math.floor(difference / 86400000);
+    const hours = Math.floor((difference % 86400000) / 3600000);
+    const minutes = Math.floor((difference % 3600000) / 60000);
+    const seconds = Math.floor((difference % 60000) / 1000);
+
+    timer.textContent =
+        String(days).padStart(2, "0") + "D " +
+        String(hours).padStart(2, "0") + "H " +
+        String(minutes).padStart(2, "0") + "M " +
+        String(seconds).padStart(2, "0") + "S";
+
+    button.disabled = true;
+}
+
+function poznajPrawde() {
+    if (Date.now() < deadline) return;
+
+    // WSTAW SWÓJ LINK PONIŻEJ
+    window.location.href = "https://www.roblox.com/games/132227226799451/Kujawsko-Pomorskie-Driving";
+}
+
+updateTimer();
+setInterval(updateTimer, 1000);
+</script>
+</body>
+</html>
